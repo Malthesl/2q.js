@@ -24,7 +24,7 @@
       html: 'innerHTML'
     },
     validCSSProps: Object.keys(document.body.style),
-    cssAutoUnit: {
+    cssAutoUnits: {
       width: 'px',
       height: 'px',
       top: 'px',
