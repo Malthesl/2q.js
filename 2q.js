@@ -126,6 +126,8 @@
     if (args.id) qel.id = args.id;
     if (args.className) qel.className = args.className;
     if (args.classes) qel.classList.add(...args.classes);
+    
+    if (args.innerText) qel.innerText = args.innerText;
 
     // Workaround for adding styles
     if (args.blueprint.style) Object.assign(qel.style, args.blueprint.style);
