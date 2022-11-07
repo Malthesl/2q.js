@@ -1,5 +1,5 @@
 /**
- * 2q.js version 1.0 beta
+ * 2q.js version 1.0.1 beta
  * By Malthe Laursen
  */
 
@@ -116,7 +116,10 @@
         delete args.blueprint[key];
       }
 
-    if (args.blueprint.children) args.children.push(...args.blueprint.children);
+    if (args.blueprint.children) {
+      args.children.push(...args.blueprint.children);
+      delete args.blueprint.children;
+    }
 
     // Generate DOM
     const qel = document.createElement(args.tag || args.blueprint.tag || 'div');
@@ -126,7 +129,7 @@
     if (args.id) qel.id = args.id;
     if (args.className) qel.className = args.className;
     if (args.classes) qel.classList.add(...args.classes);
-    
+
     if (args.innerText) qel.innerText = args.innerText;
 
     // Workaround for adding styles
@@ -135,7 +138,8 @@
     // Add styles without css or style object
     for (const key in args.blueprint) {
       if (args.blueprint.hasOwnProperty(key) && window.QConfig.validCSSProps.includes(key)) {
-        qel.style[key] = typeof args.blueprint[key] === 'number' ? args.blueprint[key] + (window.QConfig.cssAutoUnit[key] || '') : args.blueprint[key];
+        if ((key === 'width' || key === 'height') && (qel.tagName === 'CANVAS' || qel.tagName === 'IMAGE')) continue;
+        qel.style[key] = typeof args.blueprint[key] === 'number' ? args.blueprint[key] + (window.QConfig.cssAutoUnits[key] || '') : args.blueprint[key];
       }
     }
 
@@ -173,8 +177,8 @@
   };
 
   if (window.QConfig.qget && window.QConfig.qget.enabled && window.QConfig.qget.qnFunctionName)
-    window[window.QConfig.qget.qnFunctionName] = function(name) {
+    window[window.QConfig.qget.qnFunctionName] = function (name) {
       return q(...Array.from(arguments).splice(1), {qn: name});
-    }
+    };
 
 })();
