@@ -1,13 +1,6 @@
-# 2q.js coming soon
-2q.js is a DOM tool coming sometime to replace q.js in my future projects.
+# 2q.js
+2q.js is a tool I use to make elements dynamically in JS without multiple lines of createElement, set content, styles, appending them to a parent and so forth.
 
-Not complete! --- Still being tested and changing!
+Similar functionallity looks like this in 2q.js: `document.body.q('img.big-image', {src: 'myimage.png'})`
 
-# Why 2q.js?
-q.js is an awesome tool for me and makes my development much faster and enjoyable.
-
-2q.js aims to be quicker and better, especially making it more uniform and readable than q.js.
-
-See the full docs in the wiki.
-
-<sub><sup>q stands for quick, so too-quick.js. Thanks for checking it out.</sup></sub>
+This tool is still in development, and as I find bugs and come up with features, I fix and add them as needed. If you find a bug or have a feature request, just make an Issue.
