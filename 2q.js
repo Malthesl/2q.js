@@ -1,5 +1,5 @@
 /**
- * 2q.js version 1.0.1 beta
+ * 2q.js version 1.0 beta
  * By Malthe Laursen
  */
 
@@ -43,7 +43,8 @@
     const args = {
       selectorString: '',
       blueprint: {},
-      children: []
+      children: [],
+      classes: []
     };
 
     const argl = {strings: 0};
@@ -104,7 +105,7 @@
     }
     if (extract.tag[0]) args.tag = extract.tag[0];
     if (extract.id[0]) args.id = extract.id[0];
-    if (extract.class.length) args.classes ? args.classes.push(...extract.class) : (args.classes = extract.class);
+    if (extract.class.length) args.classes.push(...extract.class);
     for (const state of extract.state) {
       args[state] = true;
     }
@@ -121,6 +122,11 @@
       delete args.blueprint.children;
     }
 
+    if (args.blueprint.classes) {
+      args.classes.push(...args.blueprint.classes);
+      delete args.blueprint.classes;
+    }
+
     // Generate DOM
     const qel = document.createElement(args.tag || args.blueprint.tag || 'div');
 
@@ -128,7 +134,7 @@
 
     if (args.id) qel.id = args.id;
     if (args.className) qel.className = args.className;
-    if (args.classes) qel.classList.add(...args.classes);
+    if (args.classes) qel.classList.add(...args.classes.filter(c => c !== undefined && c !== false));
 
     if (args.innerText) qel.innerText = args.innerText;
 
@@ -155,6 +161,7 @@
       };
 
       for (const child of args.children) {
+        if (!child) continue;
         if (child[varns + 'name']) qel[varns + 'names'][child[varns + 'name']] = child;
         if (child[varns + 'names']) Object.assign(qel[varns + 'names'], child[varns + 'names']);
         qel.appendChild(child);
@@ -163,6 +170,7 @@
     // Or just add children if qget is disabled.
     else
       for (const child of args.children) {
+        if (!child) continue;
         qel.appendChild(child);
       }
 
